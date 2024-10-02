@@ -5,14 +5,14 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from main.models import Matches, Command
-from main.serializers import MatchesSerializer, CommandSerializer
+from .models import Matches, Commands
+from .serializers import MatchesSerializer, CommandSerializer
 
 
 class CommandAPIView(APIView):
 
     def get(self, request):
-        commands = Command.objects.all()
+        commands = Commands.objects.all()
         serializer = CommandSerializer(commands, many=True)
         return Response(serializer.data)
 
@@ -29,7 +29,7 @@ class CommandAPIView(APIView):
             return Response({'error': "Method PUT not allowed"})
 
         try:
-            instance = Command.objects.get(pk=pk)
+            instance = Commands.objects.get(pk=pk)
         except:
             return Response({"error": "Object does not exists"})
 
@@ -44,7 +44,7 @@ class CommandAPIView(APIView):
             return Response({'error': 'Method DELETE not allowed'})
 
         try:
-            instance = Command.objects.get(pk=pk)
+            instance = Commands.objects.get(pk=pk)
             instance.delete()
         except:
             return Response({"error": "Object Not Found !"})

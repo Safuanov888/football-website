@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Matches, Command
+from .models import Matches, Commands
 
 
 class CommandSerializer(serializers.ModelSerializer):
@@ -7,8 +7,8 @@ class CommandSerializer(serializers.ModelSerializer):
     # linck_ava = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
-        model = Command
-        fields = ['name', 'text_syperliga', 'linck_video', 'image']
+        model = Commands
+        fields = ['name', 'text_superliga', 'link_id', 'image']
 
 
     def create(self, validated_data):
@@ -17,7 +17,7 @@ class CommandSerializer(serializers.ModelSerializer):
             image_format, imgstr = image_data.split(';base64,')
             validated_data['image_data'] = imgstr
 
-        return Command.objects.create(**validated_data)
+        return Commands.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         image_data = validated_data.pop('linck_ava', None)
@@ -37,11 +37,11 @@ class CommandSerializer(serializers.ModelSerializer):
 
 
 class MatchesSerializer(serializers.ModelSerializer):
-    command = serializers.PrimaryKeyRelatedField(queryset=Command.objects.all())
+    command = serializers.PrimaryKeyRelatedField(queryset=Commands.objects.all())
 
     class Meta:
         model = Matches
-        fields = ['id', 'date', 'score', 'adres', 'finished', 'command']
+        fields = ['id', 'date', 'address', 'finished', 'command', 'goals', 'misses', 'home']
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
