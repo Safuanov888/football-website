@@ -17,16 +17,18 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from rest_framework import routers
+from django.urls import path, include
 
-from main.views import MatchesAPIView, CommandAPIView
+from main.views import MatchesViewSet, CommandsViewSet
+
+router = routers.SimpleRouter()
+router.register(r'match', MatchesViewSet)
+router.register(r'command', CommandsViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/matcheslist/', MatchesAPIView.as_view()),
-    path('api/v1/matcheslist/<int:pk>/', MatchesAPIView.as_view()),
-    path('api/v1/commandlist/', CommandAPIView.as_view()),
-    path('api/v1/commandlist/<int:pk>/', CommandAPIView.as_view()),
+    path('api/v1/', include(router.urls)),
 ]
 
 

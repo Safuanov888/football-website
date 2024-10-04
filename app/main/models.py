@@ -23,8 +23,7 @@ class Video(models.Model):
         return self.name
 
 class Commands(models.Model):
-    # image_data = models.TextField()
-    image = models.ImageField(upload_to='images/', null=True)
+    image = models.ImageField(upload_to='media/', null=True)
     name = models.CharField(max_length=100)
     text_superliga = models.CharField(max_length=100)
     link = models.ForeignKey('Video', on_delete=models.DO_NOTHING, related_name='video', null=True)
