@@ -3,6 +3,12 @@ from django.db.models import DO_NOTHING
 
 
 class Matches(models.Model):
+
+    class Meta:
+        verbose_name = 'матч'
+        verbose_name_plural = 'Матчи'
+
+
     date = models.DateTimeField()
     finished = models.BooleanField(default=False)
     address = models.CharField(max_length=100)
@@ -12,10 +18,15 @@ class Matches(models.Model):
     home = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.date
+        return f"Матч:"
 
 
 class Video(models.Model):
+
+    class Meta:
+        verbose_name = 'видео'
+        verbose_name_plural = 'Видео'
+
     link = models.TextField()
     name = models.CharField(max_length=100)
 
@@ -23,6 +34,11 @@ class Video(models.Model):
         return self.name
 
 class Commands(models.Model):
+
+    class Meta:
+        verbose_name = 'команду'
+        verbose_name_plural = 'Команды'
+
     image = models.ImageField(upload_to='media/', null=True)
     name = models.CharField(max_length=100)
     text_superliga = models.CharField(max_length=100)
@@ -32,6 +48,11 @@ class Commands(models.Model):
         return self.name
 
 class Members(models.Model):
+
+    class Meta:
+        verbose_name = 'участника'
+        verbose_name_plural = 'Состав'
+
     name = models.CharField(max_length=100)
     surname = models.CharField(max_length=100)
     number = models.IntegerField()
@@ -47,6 +68,12 @@ class Members(models.Model):
         return self.name
 
 class Tournaments(models.Model):
+
+    class Meta:
+        verbose_name = 'турнир'
+        verbose_name_plural = 'Турниры'
+
+    name = models.CharField(max_length=255)
     command = models.ForeignKey('Commands', on_delete=DO_NOTHING)
     place = models.IntegerField()
     wins = models.IntegerField()
@@ -54,5 +81,8 @@ class Tournaments(models.Model):
     loses = models.IntegerField()
     goals = models.IntegerField()
     misses = models.IntegerField()
+
+    def __str__(self):
+        return self.name
 
 
