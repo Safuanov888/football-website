@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './MainPage.css';
 import CardsList from '../CardsList/CardsList'
 import menu_strelka from '../../images/menu__strelka.svg'
 import team_img from '../../images/team.png'
+import { getMatchs } from '../../utils/Api'
+import { max } from "date-fns/fp";
 
 function MainPage() {
   const [activeTimeMatchs, setActiveTimeMatchs] = useState('Предстоящие')
+  const [currendIndexCards, setCurrendIndexCards] = useState({
+    startIndex: 0,
+    endIndex: 3
+  })
   const [isActiveMenu, setIsActiveMenu] = useState(false)
   const [filterCards, setFilterCards] = useState([])
   const cardsData = [{ id: 0, date: "2000-03-05T15:00:00+03:00", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
@@ -13,34 +19,60 @@ function MainPage() {
   { id: 2, date: "2024-09-24", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
   { id: 3, date: "2024-09-24", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
   { id: 4, date: "2024-09-24", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
-]
-
+  ]
+  useEffect(() => {
+    getMatchs().then((res) => {
+      const data = res
+      console.log(res)
+    })
+  }, [])
 
   function handleChangeTimeMatcs(e) {
     setActiveTimeMatchs(e.target.innerText)
     setIsActiveMenu(!isActiveMenu)
-    let dateNow= new Date();
+    let dateNow = new Date();
     let newCards = structuredClone(cardsData)
-    if (e.target.innerText === 'Предстоящие'){
-      newCards=newCards.filter((item)=>{
-        let dateCard= new Date(item.date)
-        return dateCard>dateNow
+    if (e.target.innerText === 'Предстоящие') {
+      newCards = newCards.filter((item) => {
+        let dateCard = new Date(item.date)
+        return dateCard > dateNow
       })
-      
+
     }
     else {
-      newCards=newCards.filter((item)=>{
-        let dateCard= new Date(item.date)
-        return dateCard<dateNow
+      newCards = newCards.filter((item) => {
+        let dateCard = new Date(item.date)
+        return dateCard < dateNow
       })
     }
     setFilterCards(newCards)
-    console.log(new Date( "2000-03-03T15:00:00+03:00"))
+    setCurrendIndexCards({
+      startIndex: 0,
+      endIndex: 3
+    })
+    console.log(new Date("2000-03-03T15:00:00+03:00"))
   }
 
   function handleIsOpenMenu(e) {
     setIsActiveMenu(!isActiveMenu)
   };
+  const handleChangeFartherMatchs = (e) => {
+    const startIndex = currendIndexCards.startIndex + 3
+    const endIndex = Math.min(currendIndexCards.endIndex + 3, filterCards.length)
+    setCurrendIndexCards({
+      startIndex: startIndex,
+      endIndex: endIndex
+    })
+  }
+
+  const handleChangeBackMatchs = (e) => {
+    const startIndex = Math.max(currendIndexCards.startIndex - 3, 0)
+    const endIndex = Math.max(currendIndexCards.endIndex - 3, 3)
+    setCurrendIndexCards({
+      startIndex: startIndex,
+      endIndex: endIndex
+    })
+  }
   return (
     <main className="main">
       <img alt="Команда" src={team_img} className='main__img'></img>
@@ -58,7 +90,11 @@ function MainPage() {
             </ul>
           </div>
         </div>
-        <CardsList cardsData={filterCards} />
+        <CardsList currendIndexCards={currendIndexCards} cardsData={filterCards} />
+        <div className='matchs__scrolling'>
+          <button disabled={currendIndexCards.startIndex === 0 ? true : false} className={currendIndexCards.startIndex === 0 ? 'matchs__scrolling-button' : 'matchs__scrolling-button matchs__scrolling-button_active'} onClick={handleChangeBackMatchs} ></button>
+          <button disabled={currendIndexCards.endIndex >= filterCards.length ? true : false} className={currendIndexCards.endIndex >= filterCards.length ? 'matchs__scrolling-button matchs__scrolling-button_right' : 'matchs__scrolling-button matchs__scrolling-button_right matchs__scrolling-button_active'} onClick={handleChangeFartherMatchs}></button>
+        </div>
       </div>
     </main>
   );

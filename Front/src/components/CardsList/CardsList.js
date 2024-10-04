@@ -1,13 +1,22 @@
-
+import React, { useState, useEffect } from "react";
 import './CardsList.css';
 import Card from '../Card/Card'
 
-function CardsList({cardsData}) {
+function CardsList({ currendIndexCards, cardsData }) {
+  const [currentCards, setCurrentCards] = useState([])
+  useEffect(() => {
+    const newCurrentCards = cardsData.filter((card, index) => {
+      if (index >= currendIndexCards.startIndex && index < currendIndexCards.endIndex) {
+        return card
+      }
+    })
+    setCurrentCards(newCurrentCards)
+  }, [currendIndexCards])
   return (
     <div className="cards">
-        {cardsData.map((card)=>(
-            <Card card={card}/>
-        ))}
+      {currentCards.map((card) => (
+        <Card card={card} />
+      ))}
     </div>
   );
 }

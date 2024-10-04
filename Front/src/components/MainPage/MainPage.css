@@ -79,5 +79,32 @@
     font-size: 32px;
     font-weight: 700;
     line-height: 38.73px;
+}
 
+.matchs__scrolling{
+    display: flex;
+    margin-top: 129px;
+    justify-content: end;
+    width: 100%;
+}
+
+.matchs__scrolling-button{
+    cursor: pointer;
+    border: none;
+    background-image: url(../../images/strelka_left.svg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    width: 57px;
+    height: 57px;
+    border: 1px solid #5C616836;
+}
+
+.matchs__scrolling-button_right{
+    background-image: url(../../images/strelka_right.svg);
+}
+
+.matchs__scrolling-button_active{
+    border: 1px solid black;
 }
