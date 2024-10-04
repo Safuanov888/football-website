@@ -7,16 +7,37 @@ import team_img from '../../images/team.png'
 function MainPage() {
   const [activeTimeMatchs, setActiveTimeMatchs] = useState('Предстоящие')
   const [isActiveMenu, setIsActiveMenu] = useState(false)
-  const cardsData = [{ id: 0, date: "2024-09-24", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
+  const [filterCards, setFilterCards] = useState([])
+  const cardsData = [{ id: 0, date: "2000-03-05T15:00:00+03:00", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
   { id: 1, date: "2024-09-24", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
   { id: 2, date: "2024-09-24", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
   { id: 3, date: "2024-09-24", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
   { id: 4, date: "2024-09-24", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
 ]
+
+
   function handleChangeTimeMatcs(e) {
     setActiveTimeMatchs(e.target.innerText)
     setIsActiveMenu(!isActiveMenu)
+    let dateNow= new Date();
+    let newCards = structuredClone(cardsData)
+    if (e.target.innerText === 'Предстоящие'){
+      newCards=newCards.filter((item)=>{
+        let dateCard= new Date(item.date)
+        return dateCard>dateNow
+      })
+      
+    }
+    else {
+      newCards=newCards.filter((item)=>{
+        let dateCard= new Date(item.date)
+        return dateCard<dateNow
+      })
+    }
+    setFilterCards(newCards)
+    console.log(new Date( "2000-03-03T15:00:00+03:00"))
   }
+
   function handleIsOpenMenu(e) {
     setIsActiveMenu(!isActiveMenu)
   };
@@ -37,7 +58,7 @@ function MainPage() {
             </ul>
           </div>
         </div>
-        <CardsList cardsData={cardsData} />
+        <CardsList cardsData={filterCards} />
       </div>
     </main>
   );
