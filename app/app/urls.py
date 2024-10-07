@@ -20,15 +20,16 @@ from django.contrib import admin
 from rest_framework import routers
 from django.urls import path, include
 
-from main.views import MatchesViewSet, CommandsViewSet
+from main.views import CommandsViewSet, MatchesAPIView
 
 router = routers.SimpleRouter()
-router.register(r'match', MatchesViewSet)
 router.register(r'command', CommandsViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include(router.urls)),
+    path('api/v1/match/', MatchesAPIView.as_view()),
+    path('api/v1/match/<int:pk>/', MatchesAPIView.as_view()),
 ]
 
 
