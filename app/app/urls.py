@@ -20,10 +20,11 @@ from django.contrib import admin
 from rest_framework import routers
 from django.urls import path, include
 
-from main.views import CommandsViewSet, MatchesAPIView
+from main.views import CommandsViewSet, MatchesAPIView, TournamentsViewSet
 
 router = routers.SimpleRouter()
 router.register(r'command', CommandsViewSet)
+router.register(r'tournament', TournamentsViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

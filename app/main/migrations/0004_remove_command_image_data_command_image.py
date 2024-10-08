@@ -17,6 +17,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='command',
             name='image',
-            field=models.ImageField(default='1.jpg', upload_to='images/'),
+            field=models.ImageField(default='1.jpg', upload_to='media/'),
         ),
     ]

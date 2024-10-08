@@ -1,38 +1,72 @@
 from datetime import datetime
 
+from PIL.ImageTransform import AffineTransform
+from django.core.exceptions import BadRequest
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from .models import Matches, Commands
-from .serializers import MatchesSerializer, CommandSerializer
+from .models import Matches, Commands, Tournaments
+from .serializers import MatchesSerializer, CommandSerializer, TournamentsSerializer
+
 
 class CommandsViewSet(ModelViewSet):
     queryset = Commands.objects.all()
     serializer_class = CommandSerializer
 
 
+class TournamentsViewSet(ModelViewSet):
+    queryset = Tournaments.objects.all()
+    serializer_class = TournamentsSerializer
+
+
 class MatchesAPIView(APIView):
 
     def get(self, request):
-        data = request.query_params.get('data')
+        queryset = Matches.objects.all()
+        date = request.query_params.get('date')
+        if date:
+            try:
+                year, month = date.split('-')
+                queryset = queryset.filter(date__year=year, date__month=month)
+            except Exception:
+                month = None
+
+
         upcoming = request.query_params.get('upcoming')
-        if data:
-            upcoming = int(upcoming)
-            year, month = data.split('-')
-            if upcoming == True:
-                queryset = Matches.objects.filter(date__gte=datetime(int(year),int(month),1),
-                                                  date__year=year,
-                                                  date__month=month)
-            elif upcoming == False:
-                queryset = Matches.objects.filter(date__lte=datetime(int(year), int(month), 1),
-                                                  date__year=year,
-                                                  date__month=month)
-            else:
-                queryset = Matches.objects.filter(date__year = year, date__month=month)
-        else:
-            queryset = Matches.objects.all()
+
+        if upcoming:
+            try:
+                upcoming = int(upcoming)
+                if date and month:
+                    ...
+                year, month, day = datetime.now().year, datetime.now().month, datetime.now().day
+
+                if upcoming == True:
+                    queryset = queryset.filter(date__gte=datetime(int(year), int(month), day))
+                elif upcoming == False:
+                    queryset = queryset.filter(date__lte=datetime(int(year), int(month), day))
+            except AttributeError:
+                ...
+
+        tournament_id = request.query_params.get('tournament')
+
+        if tournament_id:
+            try:
+                tournament_id = int(tournament_id)
+                queryset = queryset.filter(tournament=tournament_id)
+            except AttributeError:
+                ...
+
+        command_id = request.query_params.get('command')
+
+        if command_id:
+            try:
+                command_id = int(command_id)
+                queryset = queryset.filter(command=command_id)
+            except AttributeError:
+                ...
 
         serializer = MatchesSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -72,6 +106,8 @@ class MatchesAPIView(APIView):
             return Response({"error": "Object Not Found !"})
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 
 
 

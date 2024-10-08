@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from .models import Matches, Commands
+from .models import Matches, Commands, Tournaments
 
 
 class CommandSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Commands
-        fields = ['name', 'text_superliga', 'link_id', 'image']
+        fields = ['id', 'name', 'text_superliga', 'link_id', 'image']
 
 
     def create(self, validated_data):
@@ -37,14 +37,16 @@ class CommandSerializer(serializers.ModelSerializer):
 
 class MatchesSerializer(serializers.ModelSerializer):
     command = serializers.PrimaryKeyRelatedField(queryset=Commands.objects.all())
+    tournament = serializers.PrimaryKeyRelatedField(queryset=Tournaments.objects.all())
 
     class Meta:
         model = Matches
-        fields = ['id', 'date', 'address', 'finished', 'command', 'goals', 'misses', 'home']
+        fields = ['id', 'date', 'address', 'finished', 'command', 'goals', 'misses', 'home', 'tournament']
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['command'] = CommandSerializer(instance.command).data
+        representation['tournament'] = TournamentsSerializer(instance.tournament).data
         return representation
 
     def create(self, validated_data):
@@ -60,6 +62,22 @@ class MatchesSerializer(serializers.ModelSerializer):
         instance.home = validated_data.get('home', instance.home)
         instance.save()
         return instance
+
+
+class TournamentsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Commands
+        fields = ['id', 'name']
+
+    def create(self, validated_data):
+        return Tournaments.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.save()
+        return instance
+
 
 
 

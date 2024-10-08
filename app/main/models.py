@@ -13,6 +13,7 @@ class Matches(models.Model):
     finished = models.BooleanField(default=False)
     address = models.CharField(max_length=100)
     command = models.ForeignKey('Commands', on_delete=models.PROTECT, related_name='away_team')
+    tournament = models.ForeignKey('Tournaments', on_delete=models.PROTECT, default=1)
     goals = models.IntegerField(default=0)
     misses = models.IntegerField(default=0)
     home = models.BooleanField(default=True)
@@ -67,6 +68,7 @@ class Members(models.Model):
     def __str__(self):
         return self.name
 
+
 class Tournaments(models.Model):
 
     class Meta:
@@ -74,6 +76,18 @@ class Tournaments(models.Model):
         verbose_name_plural = 'Турниры'
 
     name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+class TournamentTable(models.Model):
+
+    class Meta:
+        verbose_name = 'турнирная таблица'
+        verbose_name_plural = 'Турнирые таблицы'
+
+    tournament = models.ForeignKey('Tournaments', on_delete=DO_NOTHING)
     command = models.ForeignKey('Commands', on_delete=DO_NOTHING)
     place = models.IntegerField()
     wins = models.IntegerField()
@@ -83,6 +97,6 @@ class Tournaments(models.Model):
     misses = models.IntegerField()
 
     def __str__(self):
-        return self.name
+        return self.command
 
 
