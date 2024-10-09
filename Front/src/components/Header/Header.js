@@ -1,43 +1,42 @@
-import React, { useState } from "react";
+import React from "react";
 import './Header.css';
 import merch from '../../images/kokos_merch.png'
 
-function Header() {
-    const [activePage, setActivePage] = useState({ futbol_club: true, team: false, calendar: false, ticket: false, arena: false, media: false, shop: false })
+function Header({activePage, setActivePage}) {
     function handleActive(e) {
         if (e.target.innerText === 'Футбольный клуб') {
             setActivePage({
-                futbol_club: true, team: false, calendar: false, ticket: false, arena: false, media: false, shop: false
+                futbol_club: true, news: false, matchs: false, club: false, contacts: false, media: false, shop: false
             })
         }
-        else if (e.target.innerText === 'КОМАНДА'){
+        else if (e.target.innerText === 'НОВОСТИ'){
             setActivePage({
-                futbol_club: false, team: true, calendar: false, ticket: false, arena: false, media: false, shop: false
+                futbol_club: false, news: true, matchs: false, club: false, contacts: false, media: false, shop: false
             })
         }
-        else if (e.target.innerText === 'КАЛЕНДАРЬ'){
+        else if (e.target.innerText === 'МАТЧИ'){
             setActivePage({
-                futbol_club: false, team: false, calendar: true, ticket: false, arena: false, media: false, shop: false
+                futbol_club: false, news: false, matchs: true, club: false, contacts: false, media: false, shop: false
             })
         }
-        else if (e.target.innerText === 'БИЛЕТЫ'){
+        else if (e.target.innerText === 'О КЛУБЕ'){
             setActivePage({
-                futbol_club: false, team: false, calendar: false, ticket: true, arena: false, media: false, shop: false
+                futbol_club: false, news: false, matchs: false, club: true, contacts: false, media: false, shop: false
             })
         }
-        else if (e.target.innerText === 'АРЕНА'){
+        else if (e.target.innerText === 'КОНТАКТЫ'){
             setActivePage({
-                futbol_club: false, team: false, calendar: false, ticket: false, arena: true, media: false, shop: false
+                futbol_club: false, news: false, matchs: false, club: false, contacts: true, media: false, shop: false
             })
         }
         else if (e.target.innerText === 'МЕДИА'){
             setActivePage({
-                futbol_club: false, team: false, calendar: false, ticket: false, arena: false, media: true, shop: false
+                futbol_club: false, team: false, matchs: false, club: false, contacts: false, media: true, shop: false
             })
         }
         else {
             setActivePage({
-                futbol_club: false, team: false, calendar: false, ticket: false, arena: false, media: false, shop: true
+                futbol_club: false, team: false, matchs: false, club: false, contacts: false, media: false, shop: true
             })
         }
     }
@@ -57,10 +56,10 @@ function Header() {
                     </div>
                 </div>
                 <div className="header__container header__container_grid">
-                    <button className={activePage.team ? "header__menu header_active" : "header__menu"} onClick={handleActive}>КОМАНДА</button>
-                    <button className={activePage.calendar ? "header__menu header_active" : "header__menu"} onClick={handleActive}>КАЛЕНДАРЬ</button>
-                    <button className={activePage.ticket ? "header__menu header_active" : "header__menu"} onClick={handleActive}>БИЛЕТЫ</button>
-                    <button className={activePage.arena ? "header__menu header_active" : "header__menu"} onClick={handleActive}>АРЕНА</button>
+                    <button className={activePage.news ? "header__menu header_active" : "header__menu"} onClick={handleActive}>НОВОСТИ</button>
+                    <button className={activePage.matchs ? "header__menu header_active" : "header__menu"} onClick={handleActive}>МАТЧИ</button>
+                    <button className={activePage.club ? "header__menu header_active" : "header__menu"} onClick={handleActive}>О КЛУБЕ</button>
+                    <button className={activePage.contacts ? "header__menu header_active" : "header__menu"} onClick={handleActive}>КОНТАКТЫ</button>
                     <button className={activePage.media ? "header__menu header_active" : "header__menu"} onClick={handleActive}>МЕДИА</button>
                     <button className={activePage.shop ? "header__menu header_active" : "header__menu"} onClick={handleActive}>МАГАЗИН</button>
                 </div>

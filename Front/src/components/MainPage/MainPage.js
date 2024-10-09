@@ -4,10 +4,14 @@ import CardsList from '../CardsList/CardsList'
 import menu_strelka from '../../images/menu__strelka.svg'
 import team_img from '../../images/team.png'
 import { getMatchs } from '../../utils/Api'
-import { max } from "date-fns/fp";
+import CalendarMatchs from "../CalendarMatchs/CalendarMatchs";
+import Card from "../Card/Card";
 
 function MainPage() {
   const [activeTimeMatchs, setActiveTimeMatchs] = useState('Предстоящие')
+  const today = new Date();
+  const [date, setDate] = useState(today);
+  const [cardCalendar, setCardCalendar] = useState({ id: null, date: "", command: { name: '', score: '', text_syperliga: "", adres: "" } });
   const [currendIndexCards, setCurrendIndexCards] = useState({
     startIndex: 0,
     endIndex: 3
@@ -15,17 +19,26 @@ function MainPage() {
   const [isActiveMenu, setIsActiveMenu] = useState(false)
   const [filterCards, setFilterCards] = useState([])
   const cardsData = [{ id: 0, date: "2000-03-05T15:00:00+03:00", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
-  { id: 1, date: "2024-09-24", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
+  { id: 1, date: "2024-10-05", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
   { id: 2, date: "2024-09-24", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
   { id: 3, date: "2024-09-24", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
   { id: 4, date: "2024-09-24", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
   ]
   useEffect(() => {
-    getMatchs().then((res) => {
+   /* getMatchs().then((res) => {
       const data = res
       console.log(res)
-    })
+    })*/
   }, [])
+
+  useEffect(() => {
+    cardsData.forEach((match)=>{
+      const dateMatch= new Date(match.date)
+      if(dateMatch.getDate()===date.getDate() && dateMatch.getMonth()===date.getMonth() && dateMatch.getFullYear()===date.getFullYear()){
+        setCardCalendar(match)
+      }
+    })
+   }, [date])
 
   function handleChangeTimeMatcs(e) {
     setActiveTimeMatchs(e.target.innerText)
@@ -90,12 +103,23 @@ function MainPage() {
             </ul>
           </div>
         </div>
-        <CardsList currendIndexCards={currendIndexCards} cardsData={filterCards} />
+        {filterCards.length!==0 ? (
+          <CardsList currendIndexCards={currendIndexCards} cardsData={filterCards} />
+        ) : (
+          <p className="matchs__paragraph">Записей не найдено</p>
+        )}
+        
         <div className='matchs__scrolling'>
           <button disabled={currendIndexCards.startIndex === 0 ? true : false} className={currendIndexCards.startIndex === 0 ? 'matchs__scrolling-button' : 'matchs__scrolling-button matchs__scrolling-button_active'} onClick={handleChangeBackMatchs} ></button>
           <button disabled={currendIndexCards.endIndex >= filterCards.length ? true : false} className={currendIndexCards.endIndex >= filterCards.length ? 'matchs__scrolling-button matchs__scrolling-button_right' : 'matchs__scrolling-button matchs__scrolling-button_right matchs__scrolling-button_active'} onClick={handleChangeFartherMatchs}></button>
         </div>
       </div>
+      <section className="calendar">
+        <div className="calendar__container">
+          <CalendarMatchs setDate={setDate} date={date} />
+          {cardCalendar.id ? (<Card card={cardCalendar}/>) : ''}
+        </div>
+      </section>
     </main>
   );
 }

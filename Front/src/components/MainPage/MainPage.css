@@ -108,3 +108,23 @@
 .matchs__scrolling-button_active{
     border: 1px solid black;
 }
+.calendar{
+    margin-top: 51px;
+    padding-top: 40px;
+    background-image: url(../../images/calendar.png);
+    width: 100%;
+    padding-bottom: 40px;
+}
+.calendar__container{
+    margin: 0 auto;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.matchs__paragraph{
+    min-height: 200px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 20px;
+}

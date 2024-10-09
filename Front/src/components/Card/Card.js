@@ -34,7 +34,12 @@ function Card({card}) {
                 <p className="card__team-name">КОКОС</p>
             </div>
             <div>
-                <img className="card__kresik" alt='krestik' src={krestik}></img>
+                { card.command.score ? (
+                    <p className="card__score"> {card.command.score}</p>
+                ) :(
+                    <img className="card__kresik" alt='krestik' src={krestik}></img>
+                )
+                }           
             </div>
             <div>
                 <img className="card__merch" alt='command2' src={imgCom}></img>
