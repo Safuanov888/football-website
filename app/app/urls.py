@@ -20,7 +20,7 @@ from django.contrib import admin
 from rest_framework import routers
 from django.urls import path, include
 
-from main.views import CommandsViewSet, MatchesAPIView, TournamentsViewSet
+from main.views import CommandsViewSet, MatchesAPIView, TournamentsViewSet, CalendarAPIView
 
 router = routers.SimpleRouter()
 router.register(r'command', CommandsViewSet)
@@ -31,6 +31,7 @@ urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('api/v1/match/', MatchesAPIView.as_view()),
     path('api/v1/match/<int:pk>/', MatchesAPIView.as_view()),
+    path('api/v1/calendar/', CalendarAPIView.as_view())
 ]
 
 

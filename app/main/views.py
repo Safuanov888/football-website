@@ -4,6 +4,7 @@ from PIL.ImageTransform import AffineTransform
 from django.core.exceptions import BadRequest
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.status import HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
@@ -21,6 +22,22 @@ class TournamentsViewSet(ModelViewSet):
     serializer_class = TournamentsSerializer
 
 
+class CalendarAPIView(APIView):
+
+    def get(self, request):
+        try:
+            date = request.query_params.get('date')
+
+            year, month = date.split('-')
+
+            queryset = Matches.objects.filter(date__year=year, date__month=month)
+            serializer = MatchesSerializer(queryset, many=True)
+            return Response(serializer.data)
+
+        except Exception:
+            Response(HTTP_400_BAD_REQUEST)
+
+
 class MatchesAPIView(APIView):
 
     def get(self, request):
@@ -28,8 +45,8 @@ class MatchesAPIView(APIView):
         date = request.query_params.get('date')
         if date:
             try:
-                year, month = date.split('-')
-                queryset = queryset.filter(date__year=year, date__month=month)
+                year, month, day = date.split('-')
+                queryset = queryset.filter(date=datetime(year, month, day))
             except Exception:
                 month = None
 
@@ -44,9 +61,9 @@ class MatchesAPIView(APIView):
                 year, month, day = datetime.now().year, datetime.now().month, datetime.now().day
 
                 if upcoming == True:
-                    queryset = queryset.filter(date__gte=datetime(int(year), int(month), day))
+                    queryset = queryset.filter(date__gte=datetime(year, month, day))
                 elif upcoming == False:
-                    queryset = queryset.filter(date__lte=datetime(int(year), int(month), day))
+                    queryset = queryset.filter(date__lte=datetime(year, month, day))
             except AttributeError:
                 ...
 
