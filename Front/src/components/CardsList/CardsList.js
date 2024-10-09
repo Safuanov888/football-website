@@ -15,7 +15,7 @@ function CardsList({ currendIndexCards, cardsData }) {
   return (
     <div className="cards">
       {currentCards.map((card) => (
-        <Card card={card} />
+        <Card key={card.id} card={card} />
       ))}
     </div>
   );

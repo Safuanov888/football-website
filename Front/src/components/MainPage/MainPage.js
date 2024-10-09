@@ -8,7 +8,8 @@ import CalendarMatchs from "../CalendarMatchs/CalendarMatchs";
 import Card from "../Card/Card";
 
 function MainPage() {
-  const [activeTimeMatchs, setActiveTimeMatchs] = useState('Предстоящие')
+  const [activeTimeMatchs, setActiveTimeMatchs] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
   const today = new Date();
   const [date, setDate] = useState(today);
   const [cardCalendar, setCardCalendar] = useState({ id: null, date: "", command: { name: '', score: '', text_syperliga: "", adres: "" } });
@@ -25,45 +26,44 @@ function MainPage() {
   { id: 4, date: "2024-09-24", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
   ]
   useEffect(() => {
-   /* getMatchs().then((res) => {
-      const data = res
-      console.log(res)
-    })*/
-  }, [])
+    getMatchs({ "upcoming": activeTimeMatchs }, setIsLoading).then((res) => {
+      setFilterCards(res)
+    })
+    setIsLoading(false)
+  }, [activeTimeMatchs])
 
   useEffect(() => {
-    cardsData.forEach((match)=>{
-      const dateMatch= new Date(match.date)
-      if(dateMatch.getDate()===date.getDate() && dateMatch.getMonth()===date.getMonth() && dateMatch.getFullYear()===date.getFullYear()){
-        setCardCalendar(match)
-      }
-    })
-   }, [date])
-
-  function handleChangeTimeMatcs(e) {
-    setActiveTimeMatchs(e.target.innerText)
-    setIsActiveMenu(!isActiveMenu)
-    let dateNow = new Date();
-    let newCards = structuredClone(cardsData)
-    if (e.target.innerText === 'Предстоящие') {
-      newCards = newCards.filter((item) => {
-        let dateCard = new Date(item.date)
-        return dateCard > dateNow
-      })
-
-    }
-    else {
-      newCards = newCards.filter((item) => {
-        let dateCard = new Date(item.date)
-        return dateCard < dateNow
-      })
-    }
-    setFilterCards(newCards)
     setCurrendIndexCards({
       startIndex: 0,
       endIndex: 3
     })
-    console.log(new Date("2000-03-03T15:00:00+03:00"))
+  }, [filterCards])
+
+  useEffect(() => {
+    cardsData.forEach((match) => {
+      const dateMatch = new Date(match.date)
+      if (dateMatch.getDate() === date.getDate() && dateMatch.getMonth() === date.getMonth() && dateMatch.getFullYear() === date.getFullYear()) {
+        setCardCalendar(match)
+      }
+    })
+  }, [date])
+
+  function handleChangeTimeMatcs(e) {
+    //setActiveTimeMatchs(e.target.innerText)
+    setIsActiveMenu(!isActiveMenu)
+    let currentUpcoming;
+    if (e.target.innerText === 'Предстоящие') {
+      currentUpcoming = 1
+    }
+    else {
+      currentUpcoming = 0
+    }
+    console.log(currentUpcoming, activeTimeMatchs)
+    if (currentUpcoming != activeTimeMatchs) {
+      console.log('yes')
+      setActiveTimeMatchs(currentUpcoming)
+    }
+
   }
 
   function handleIsOpenMenu(e) {
@@ -94,7 +94,7 @@ function MainPage() {
           <h2 className="matchs__title">Матчи</h2>
           <div>
             <button className='matchs__button' onClick={handleIsOpenMenu}>
-              <p>{activeTimeMatchs}</p>
+              <p>{activeTimeMatchs === 1 ? 'Предстоящие' : 'Прошедшие'}</p>
               <img className='matchs__strelka' alt='strelka' src={menu_strelka}></img>
             </button>
             <ul className={isActiveMenu ? 'matchs__drowdrop matchs__drowdrop_active' : 'matchs__drowdrop'}>
@@ -103,12 +103,13 @@ function MainPage() {
             </ul>
           </div>
         </div>
-        {filterCards.length!==0 ? (
-          <CardsList currendIndexCards={currendIndexCards} cardsData={filterCards} />
-        ) : (
-          <p className="matchs__paragraph">Записей не найдено</p>
-        )}
-        
+        {isLoading ? (<p className="matchs__paragraph">Идёт загрузка...</p>) :
+          filterCards.length !== 0 ? (
+            <CardsList currendIndexCards={currendIndexCards} cardsData={filterCards} />
+          ) : (
+              <p className="matchs__paragraph">Записей не найдено</p>
+            )
+        }
         <div className='matchs__scrolling'>
           <button disabled={currendIndexCards.startIndex === 0 ? true : false} className={currendIndexCards.startIndex === 0 ? 'matchs__scrolling-button' : 'matchs__scrolling-button matchs__scrolling-button_active'} onClick={handleChangeBackMatchs} ></button>
           <button disabled={currendIndexCards.endIndex >= filterCards.length ? true : false} className={currendIndexCards.endIndex >= filterCards.length ? 'matchs__scrolling-button matchs__scrolling-button_right' : 'matchs__scrolling-button matchs__scrolling-button_right matchs__scrolling-button_active'} onClick={handleChangeFartherMatchs}></button>
@@ -117,7 +118,7 @@ function MainPage() {
       <section className="calendar">
         <div className="calendar__container">
           <CalendarMatchs setDate={setDate} date={date} />
-          {cardCalendar.id ? (<Card card={cardCalendar}/>) : ''}
+          {cardCalendar.id ? (<Card card={cardCalendar} />) : ''}
         </div>
       </section>
     </main>

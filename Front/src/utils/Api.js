@@ -7,8 +7,11 @@ function getResponseData(res) {
     return Promise.reject(`Ошибка ${res.status}`);
 }
 
-export const getMatchs = () => {
-    return fetch(`${BASE_URL}/api/v1/matcheslist/`, {
+export const getMatchs = (param, setIsLoading) => {
+    let url = new URL(`${BASE_URL}/api/v1/match/`)
+    url.search = new URLSearchParams(param).toString();
+    setIsLoading(true)
+    return fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
