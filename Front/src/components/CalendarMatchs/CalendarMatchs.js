@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './CalendarMatchs.css';
-import "react-calendar/dist/Calendar.css";
+
 import styled, { css } from 'styled-components';
 const Frame = styled.div`
   width: 400px;
