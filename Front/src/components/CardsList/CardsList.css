@@ -1,7 +1,0 @@
-.cards{
-    margin: 0 auto;
-    
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 115px;
-}
