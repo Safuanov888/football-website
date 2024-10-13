@@ -43,29 +43,23 @@ class MatchesAPIView(APIView):
     def get(self, request):
         queryset = Matches.objects.all()
         date = request.query_params.get('date')
-        if date:
-            try:
-                year, month, day = date.split('-')
-                queryset = queryset.filter(date=datetime(year, month, day))
-            except Exception:
-                month = None
-
-
-        upcoming = request.query_params.get('upcoming')
+        upcoming = request.query_params.get('upcoming', 0)
 
         if upcoming:
             try:
                 upcoming = int(upcoming)
-                if date and month:
-                    ...
-                year, month, day = datetime.now().year, datetime.now().month, datetime.now().day
+                if date:
+                    year, month, day = date.split('-')
+                    year, month, day = map(int, [year, month, day])
+                else:
+                    year, month, day = datetime.now().year, datetime.now().month, datetime.now().day
 
                 if upcoming == True:
                     queryset = queryset.filter(date__gte=datetime(year, month, day))
                 elif upcoming == False:
                     queryset = queryset.filter(date__lte=datetime(year, month, day))
             except AttributeError:
-                ...
+                return Response(HTTP_400_BAD_REQUEST)
 
         tournament_id = request.query_params.get('tournament')
 
@@ -74,7 +68,7 @@ class MatchesAPIView(APIView):
                 tournament_id = int(tournament_id)
                 queryset = queryset.filter(tournament=tournament_id)
             except AttributeError:
-                ...
+                return Response(HTTP_400_BAD_REQUEST)
 
         command_id = request.query_params.get('command')
 
@@ -83,7 +77,7 @@ class MatchesAPIView(APIView):
                 command_id = int(command_id)
                 queryset = queryset.filter(command=command_id)
             except AttributeError:
-                ...
+                return Response(HTTP_400_BAD_REQUEST)
 
         serializer = MatchesSerializer(queryset, many=True)
         return Response(serializer.data)
