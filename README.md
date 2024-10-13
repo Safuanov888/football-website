@@ -1,4 +1,4 @@
-# Сайт футбольной команды Kokos group (RSU_kickers)
+# Сайт футбольной команды Kokos Group (RSU_kickers)
 
 ## Функции
 
