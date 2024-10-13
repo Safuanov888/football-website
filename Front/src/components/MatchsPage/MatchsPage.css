@@ -1,0 +1,88 @@
+.matchspage{
+    background: black;
+    width: 100%;
+    padding-bottom: 400px;
+}
+
+.matchspage__img{
+    width: 100%;
+    height: 640px;
+}
+
+.matchspage__menu{
+    margin-top: 72px;
+    display: grid;
+    margin-left: 67px;
+    width: 80%;
+    grid-template-columns: repeat(5, 1fr);
+    gap:50px;
+}
+
+.matchspage__subtitle{
+    color: white;
+    margin: 0;
+    font-family: "Inter";
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 58.09px;
+
+}
+
+.button{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background: #5C6168;
+    height: 47px;
+    border-width: 1px, 1px, 0px, 1px;
+    border-style: solid;
+    border-color: #AEAEAE;
+    color: white;
+    font-family: "Inter";
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+    justify-content: space-between
+}
+.matchspage__menu-container{
+    width: 100%;
+}
+.matchspage__drowdrop{
+    width: 12%;
+     background: #28292B;
+    
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border-right: 1px solid rgba(226, 39, 38, 1);
+    border-left: 1px solid rgba(226, 39, 38, 1);
+    position: absolute;
+    border-radius: 5px;
+    display: none;
+}
+
+.matchspage__drowdrop-item{
+    color: white;
+    height: 40px;
+    font-size: 20px;
+    font-family: "Inter";
+    font-weight: 500;
+    padding-left: 15px;
+    padding-top: 15px;
+    border-bottom: 1px solid rgba(226, 39, 38, 1);
+}
+
+.matchspage__drowdrop-item:hover{
+    background-color: grey;
+    cursor: pointer;
+}
+
+.matchspage__drowdrop_active{
+    display: block;
+}
+
+.cards_container{
+    margin: 0 auto;
+    margin-top: 135px;
+    width: 90%;
+}

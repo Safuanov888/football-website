@@ -1,0 +1,16 @@
+.calendar-container {
+    flex: flex;
+    justify-content: center;
+    max-width: 500px;
+    margin-right: 2rem;
+    background-color: aquamarine;
+}
+
+.event-container {
+    flex: 1;
+    max-width: 500px;
+}
+
+.event-marked{
+    background-color: yellow;
+}
