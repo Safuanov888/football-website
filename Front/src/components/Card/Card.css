@@ -1,0 +1,86 @@
+.card{
+    border-radius: 43px;
+    border: 1px solid rgba(218, 218, 218, 1);
+    background-color: white;
+    min-width: 400px;
+}
+
+.card__date{
+    margin: 0;
+    text-align: center;
+    font-family: "Inter";
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 18.15px;
+    margin-top: 37px;
+}
+
+.card__team{
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    max-width: 326px;
+    margin-top: 34px;
+}
+
+.card__kresik{
+    margin-top: 40px;
+
+}
+
+.card__merch{
+    width: 98px;
+    height: 99.01px;
+    object-fit: contain;
+}
+
+.card__team-name{
+    margin: 0;
+    margin-top: 12px;
+    text-align: center;
+    font-family: "Inter";
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 18.15px;
+}
+
+.card__text{
+    margin: 0;
+    margin-top: 33px;
+    text-align: center;
+    font-family: "Inter";
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.36px;
+}
+
+.card__paragraph{
+    margin: 0;
+    margin-top: 4px;
+    font-family: "Inter";
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 14.52px;
+    text-align: center;
+}
+
+.card__subtitle{
+    margin: 0;
+    color: red;
+    font-weight: 700;
+    font-size: 18px;
+    margin-top: 23px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.card__date_time{
+    margin-top: 0;
+    margin-top: 10px;
+}
+
+.card__score{
+    margin-top: 40px;
+    font-size: 20px;
+
+}
