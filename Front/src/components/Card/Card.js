@@ -3,7 +3,7 @@ import './Card.css';
 import imgCom from '../../images/image_test.png'
 import kokos from '../../images/card_kokos.png'
 import krestik from '../../images/card__krest.svg'
-function Card({ card }) {
+function Card({ card, activeTimeMatchs }) {
     const [cardData, setCardData] = useState({
         date: '',
         nameCommand: ''
@@ -34,8 +34,8 @@ function Card({ card }) {
                     <p className="card__team-name">КОКОС</p>
                 </div>
                 <div>
-                    {card.command.score ? (
-                        <p className="card__score"> {card.command.score}</p>
+                    {activeTimeMatchs === 0 ? (
+                        <p className="card__score">{`${card.goals}:${card.misses}`}</p>
                     ) : (
                             <img className="card__kresik" alt='krestik' src={krestik}></img>
                         )

@@ -2,34 +2,34 @@ import React from "react";
 import './Header.css';
 import merch from '../../images/kokos_merch.png'
 
-function Header({activePage, setActivePage}) {
+function Header({ activePage, setActivePage }) {
     function handleActive(e) {
         if (e.target.innerText === 'Футбольный клуб') {
             setActivePage({
                 futbol_club: true, news: false, matchs: false, club: false, contacts: false, media: false, shop: false
             })
         }
-        else if (e.target.innerText === 'НОВОСТИ'){
+        else if (e.target.innerText === 'НОВОСТИ') {
             setActivePage({
                 futbol_club: false, news: true, matchs: false, club: false, contacts: false, media: false, shop: false
             })
         }
-        else if (e.target.innerText === 'МАТЧИ'){
+        else if (e.target.innerText === 'МАТЧИ') {
             setActivePage({
                 futbol_club: false, news: false, matchs: true, club: false, contacts: false, media: false, shop: false
             })
         }
-        else if (e.target.innerText === 'О КЛУБЕ'){
+        else if (e.target.innerText === 'О КЛУБЕ') {
             setActivePage({
                 futbol_club: false, news: false, matchs: false, club: true, contacts: false, media: false, shop: false
             })
         }
-        else if (e.target.innerText === 'КОНТАКТЫ'){
+        else if (e.target.innerText === 'КОНТАКТЫ') {
             setActivePage({
                 futbol_club: false, news: false, matchs: false, club: false, contacts: true, media: false, shop: false
             })
         }
-        else if (e.target.innerText === 'МЕДИА'){
+        else if (e.target.innerText === 'МЕДИА') {
             setActivePage({
                 futbol_club: false, team: false, matchs: false, club: false, contacts: false, media: true, shop: false
             })
@@ -52,16 +52,13 @@ function Header({activePage, setActivePage}) {
                 <div className="header__container">
                     <div className="header__liga">
                         <p className='header__text header__text_liga'>СУПЕР ЛИГА F</p>
-                        <button className="header__telegram"></button>
+                        <a className="header__telegram" href='https://t.me/fckokocgroup' target="_blank"></a>
                     </div>
                 </div>
                 <div className="header__container header__container_grid">
-                    <button className={activePage.news ? "header__menu header_active" : "header__menu"} onClick={handleActive}>НОВОСТИ</button>
+
                     <button className={activePage.matchs ? "header__menu header_active" : "header__menu"} onClick={handleActive}>МАТЧИ</button>
                     <button className={activePage.club ? "header__menu header_active" : "header__menu"} onClick={handleActive}>О КЛУБЕ</button>
-                    <button className={activePage.contacts ? "header__menu header_active" : "header__menu"} onClick={handleActive}>КОНТАКТЫ</button>
-                    <button className={activePage.media ? "header__menu header_active" : "header__menu"} onClick={handleActive}>МЕДИА</button>
-                    <button className={activePage.shop ? "header__menu header_active" : "header__menu"} onClick={handleActive}>МАГАЗИН</button>
                 </div>
             </div>
         </header>

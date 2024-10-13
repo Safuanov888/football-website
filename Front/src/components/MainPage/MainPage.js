@@ -3,7 +3,7 @@ import './MainPage.css';
 import CardsList from '../CardsList/CardsList'
 import menu_strelka from '../../images/menu__strelka.svg'
 import team_img from '../../images/team.png'
-import { getMatchs } from '../../utils/Api'
+import { getMatchs, getMonthMatch } from '../../utils/Api'
 import CalendarMatchs from "../CalendarMatchs/CalendarMatchs";
 import Card from "../Card/Card";
 
@@ -12,6 +12,7 @@ function MainPage() {
   const [isLoading, setIsLoading] = useState(false)
   const today = new Date();
   const [date, setDate] = useState(today);
+  const [currentDate, setCurrentDate] = useState('')
   const [cardCalendar, setCardCalendar] = useState({ id: null, date: "", command: { name: '', score: '', text_syperliga: "", adres: "" } });
   const [currendIndexCards, setCurrendIndexCards] = useState({
     startIndex: 0,
@@ -19,12 +20,15 @@ function MainPage() {
   })
   const [isActiveMenu, setIsActiveMenu] = useState(false)
   const [filterCards, setFilterCards] = useState([])
-  const cardsData = [{ id: 0, date: "2000-03-05T15:00:00+03:00", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
-  { id: 1, date: "2024-10-05", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
-  { id: 2, date: "2024-09-24", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
-  { id: 3, date: "2024-09-24", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
-  { id: 4, date: "2024-09-24", command: { name: 'Тройка', score: '3:0', text_syperliga: "Суперлига FS сезон", adres: "Вернандка парк 1" } },
-  ]
+  const [cardsMonth, setCardsMonth] = useState([])
+  const [currentMonth, setCurrentMonth] = useState(today);
+  useEffect(() => {
+    const formatCurrentMonth = currentMonth.getMonth() + 1 < 10 ? `0${currentMonth.getMonth() + 1}` : currentMonth.getMonth() + 1
+    getMonthMatch({ "date": `${currentMonth.getFullYear()}-${formatCurrentMonth}` }, setIsLoading).then((res) => {
+      setCardsMonth(res)
+    })
+    setIsLoading(false)
+  }, [currentMonth])
   useEffect(() => {
     getMatchs({ "upcoming": activeTimeMatchs }, setIsLoading).then((res) => {
       setFilterCards(res)
@@ -37,10 +41,12 @@ function MainPage() {
       startIndex: 0,
       endIndex: 3
     })
+    setIsLoading(false)
   }, [filterCards])
 
   useEffect(() => {
-    cardsData.forEach((match) => {
+
+    cardsMonth.forEach((match) => {
       const dateMatch = new Date(match.date)
       if (dateMatch.getDate() === date.getDate() && dateMatch.getMonth() === date.getMonth() && dateMatch.getFullYear() === date.getFullYear()) {
         setCardCalendar(match)
@@ -58,9 +64,7 @@ function MainPage() {
     else {
       currentUpcoming = 0
     }
-    console.log(currentUpcoming, activeTimeMatchs)
     if (currentUpcoming != activeTimeMatchs) {
-      console.log('yes')
       setActiveTimeMatchs(currentUpcoming)
     }
 
@@ -105,7 +109,7 @@ function MainPage() {
         </div>
         {isLoading ? (<p className="matchs__paragraph">Идёт загрузка...</p>) :
           filterCards.length !== 0 ? (
-            <CardsList currendIndexCards={currendIndexCards} cardsData={filterCards} />
+            <CardsList currendIndexCards={currendIndexCards} cardsData={filterCards} activeTimeMatchs={activeTimeMatchs} />
           ) : (
               <p className="matchs__paragraph">Записей не найдено</p>
             )
@@ -117,8 +121,8 @@ function MainPage() {
       </div>
       <section className="calendar">
         <div className="calendar__container">
-          <CalendarMatchs setDate={setDate} date={date} />
-          {cardCalendar.id ? (<Card card={cardCalendar} />) : ''}
+          <CalendarMatchs setCurrentDate={setCurrentDate} setDate={setDate} date={date} cardsMonth={cardsMonth} setCurrentMonth={setCurrentMonth} />
+          {cardCalendar.id ? (<Card card={cardCalendar} activeTimeMatchs={date <= today ? 0 : 1} />) : ''}
         </div>
       </section>
     </main>

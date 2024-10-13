@@ -22,4 +22,51 @@ export const getMatchs = (param, setIsLoading) => {
             return getResponseData(res)
         })
         .then(data => data)
-} 
+}
+
+export const getMonthMatch = (param, setIsLoading) => {
+    let url = new URL(`${BASE_URL}/api/v1/calendar/`)
+    url.search = new URLSearchParams(param).toString();
+    setIsLoading(true)
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+    })
+        .then((res) => {
+            return getResponseData(res)
+        })
+        .then(data => data)
+}
+
+export const getTournament = (setIsLoading) => {
+    setIsLoading(true)
+    return fetch(`${BASE_URL}/api/v1/tournament/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+    })
+        .then((res) => {
+            return getResponseData(res)
+        })
+        .then(data => data)
+}
+
+export const getCommands = (setIsLoading) => {
+    setIsLoading(true)
+    return fetch(`${BASE_URL}/api/v1/command/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+    })
+        .then((res) => {
+            return getResponseData(res)
+        })
+        .then(data => data)
+}
