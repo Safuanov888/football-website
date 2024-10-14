@@ -20,14 +20,9 @@
 
 ## Установка
 
-1. Клонируйте репозиторий:
-   git clone https://github.com/Safuanov888/football-website.git
-2. Перейдите в директорию проекта:
-   cd football-website
-3. Установите необходимые зависимости:
-   pip install -r requirements.txt
-4. Запустите сервер:
-   python manage.py runserver
+1. Из директории проекта в консоли написать '''docker-compose down -v''', чтобы удалить текущие контейнеры.
+2. Затем пишем '''docker-compose up --build'''.
+3. Смотрим результат на localhost:9600, если НЕ РАБОТАЕТ перезапустите контейнер backend: '''docker-compose restart backend'''.
 
 ## Контакты
 
