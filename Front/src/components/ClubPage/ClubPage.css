@@ -1,8 +1,7 @@
 .club__glavnay{
     background-image: url(../../images/club/club.png);
-    background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: contain;
     height: 632px;
     width: 100%;
 }
@@ -21,7 +20,6 @@
 }
 .club__history{
     margin-left: 50px;
-    margin-top: 64px;
     max-width: 1139px;
     padding-bottom: 70px;
 }
@@ -133,8 +131,143 @@
     margin-top: 2px;
 }
 
-@media (max-width: 1280px){
+.cubok{
+    margin: 0 auto;
+    width: 96%;
+    margin-top: 172px;
+    display: flex;
+}
+
+.cubok__img{
+    width: calc(100%/2 - 40px);
+}
+
+.cubok__text{
+    list-style: none;
+}
+.cubok__item{
+    display: flex;
+    align-items: center;
+    margin-top: 38px;
+}
+.cubok__krug{
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    background: rgba(226, 39, 38, 1);
+}
+
+.cubok__award{
+    color: white;
+    margin: 0;
+    font-family: "Inter";
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 31.47px;
+    margin-left: 10px;
+}
+
+.trener{
+    background-color: black;
+}
+
+.trener__container{
+    margin: 0 auto;
+    width: 80%;
+    padding-top: 100px;
+    display: flex;
+    justify-content: space-between;
+}
+.trener__name{
+    margin: 0;
+    color: white;
+    font-family: Inter;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 31.47px;
+    margin-top: 10px;
+}
+
+.trener__info{
+    max-width: 40%;
+    text-align: center;
+}
+.trener__opinion{
+    width: 50%;
+}
+.trener__title{
+    color: white;
+    margin: 0;
+    font-family: "Inter";
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 58.09px;
+}
+.trener__text{
+    width: 100%;
+    background-color: white;
+    padding: 27px;
+    border-radius: 41px;
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 29.05px;
+}
+
+.players{
+    margin: 0 auto;
+    margin-top: 100px;
+    width: 96%;
+    margin-bottom: 100px;
+}
+
+.players__title{
+    margin: 0;
+    font-family: "Inter";
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 43.57px;   
+}
+
+.palyers__grid{
+    margin-top: 50px;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:78px;
+}
+
+.players__img{
+    max-height: 600px;
+    width: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+.players__text{
+    font-family: "Inter";
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 29.05px;
+    text-align: center;
+}
+@media (max-width: 1300px){
     .club__team-text{
+        font-size: 16px;
+    }
+    .cubok__krug{
+        width: 30px;
+        height: 30px;
+    }
+    .cubok__award{
+        font-size: 16px;
+    }
+    .trener__name{
+        font-size: 16px;
+    }
+    .trener__text{
+        font-size: 16px;
+    }
+    .players__text{
         font-size: 16px;
     }
 }
