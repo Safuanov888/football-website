@@ -14,7 +14,6 @@ export const getMatchs = (param, setIsLoading) => {
     return fetch(url, {
         method: 'GET',
         headers: {
-            'Access-Control-Allow-Credentials': true,
             'Content-Type': 'application/json',
         },
         credentials: 'include',
@@ -32,7 +31,6 @@ export const getMonthMatch = (param, setIsLoading) => {
     return fetch(url, {
         method: 'GET',
         headers: {
-            'Access-Control-Allow-Credentials': true,
             'Content-Type': 'application/json',
         },
         credentials: 'include',
@@ -48,7 +46,6 @@ export const getTournament = (setIsLoading) => {
     return fetch(`${BASE_URL}/api/v1/tournament/`, {
         method: 'GET',
         headers: {
-            'Access-Control-Allow-Credentials': true,
             'Content-Type': 'application/json',
         },
         credentials: 'include',
@@ -64,7 +61,6 @@ export const getCommands = (setIsLoading) => {
     return fetch(`${BASE_URL}/api/v1/command/`, {
         method: 'GET',
         headers: {
-            'Access-Control-Allow-Credentials': true,
             'Content-Type': 'application/json',
         },
         credentials: 'include',
